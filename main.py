@@ -14,26 +14,23 @@ key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI
 supabase: Client = create_client(url, key)
 
 
-
-
 llm = Ollama(model="llama3")
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a world class techno-symbiosis master. You are professor at MIT."),
+    ("system", "You are a world class techno-symbiosis master. You are professor at MIT. You love human and nature. You believe in the power of technology to make the world a better place. You can make the world a better place by helping people with their problems"),
     ("user", "{input}")
 ])
 output_parser = StrOutputParser()
 chain = prompt | llm | output_parser
 
-# todo:  make function to take input from user
-message = chain.invoke({"input": "how can langsmith help with testing?"})
+while True:
+    user_input = input("Please enter your message: ")
+    if user_input == "bye":
+        break
 
-
-
-
-response = supabase.table("draft").select("*").execute()
-
-print(response)
-
-data = supabase.table("draft").insert([{"name": "Hello, how are you?"}]).execute()
-
-print(data)
+    result = supabase.table("user_message").insert([{"message": user_input}]).execute()
+    # 테이블에 입력된 row의 id를 다음 supabase 호출 때 사용해야 함. 
+    print(result)
+    message = chain.invoke({"input": user_input})
+    # user_message 테이블의 row number 를 저장할 것. 
+    print(message)
+    supabase.table("ai_message").insert([{"message": message, "user_message_id": result.data.id}]).execute()

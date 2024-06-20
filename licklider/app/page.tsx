@@ -7,6 +7,7 @@ export default function Home() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [inputText, setInputText] = useState<string>("");
   const [fetchedText, setFetchedText] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -22,14 +23,16 @@ export default function Home() {
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
+    event.target.style.height = "inherit";
+    event.target.style.height = `${event.target.scrollHeight}px`;
   };
 
-  const handleSend = async () => {
+  const handleSendText = async () => {
+    setIsSending(true);
     const formData = new FormData();
-    formData.append("image", selectedImage as Blob);
     formData.append("text", inputText);
 
-    const response = await fetch("http://localhost:5000", {
+    const response = await fetch("http://localhost:5000/text", {
       method: "POST",
       body: formData,
     });
@@ -38,16 +41,42 @@ export default function Home() {
       const data = await response.text();
       setFetchedText(data);
     }
+    setIsSending(false);
+  }
+
+  const handleSendImage = async () => {
+    setIsSending(true);
+    const formData = new FormData();
+    formData.append("image", selectedImage as Blob);
+
+    const response = await fetch("http://localhost:5000/image", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      const data = await response.text();
+      setFetchedText(data);
+    }
+    setIsSending(false);
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-10">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+        <h1 className="text-3xl font-bold mb-10">Postman</h1>
+        <h2 className="text-xl font-bold mb-3">편지쓰기</h2>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         {imageSrc && <img src={imageSrc} alt="Selected" />}
-        <input type="text" value={inputText} onChange={handleTextChange} />
-
-        <button onClick={handleSend}>Send</button>
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleSendImage} disabled={isSending}>
+          {isSending ? "전송 중..." : "전송"}
+        </button>
+        <h2 className="text-xl font-bold mb-3">말하기</h2>
+        <textarea className="w-full overflow-visible" type="text" value={inputText} onChange={handleTextChange} />
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleSendText} disabled={isSending}>
+          {isSending ? "전송 중..." : "전송"}
+        </button>
+        <h2 className="text-xl font-bold mb-3">대답</h2>
         <p>{fetchedText}</p>
       </div>
     </main>

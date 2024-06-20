@@ -26,15 +26,12 @@ export default function Home() {
 
   const handleSend = async () => {
     const formData = new FormData();
-    // formData.append("image", selectedImage as Blob);
+    formData.append("image", selectedImage as Blob);
     formData.append("text", inputText);
 
     const response = await fetch("http://localhost:5000", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ text: inputText }),
+      body: formData,
     });
 
     if (response.ok) {

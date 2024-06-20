@@ -28,9 +28,8 @@ while True:
         break
 
     result = supabase.table("user_message").insert([{"message": user_input}]).execute()
-    # 테이블에 입력된 row의 id를 다음 supabase 호출 때 사용해야 함. 
-    print(result)
+    row_id = result.data[0]['id']
+
     message = chain.invoke({"input": user_input})
-    # user_message 테이블의 row number 를 저장할 것. 
+    supabase.table("ai_message").insert([{"message": message, "user_message_id": row_id}]).execute()
     print(message)
-    supabase.table("ai_message").insert([{"message": message, "user_message_id": result.data.id}]).execute()

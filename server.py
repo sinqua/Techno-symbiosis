@@ -11,28 +11,32 @@ reader = easyocr.Reader(['ko', 'en'])
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
 @app.route('/text', methods=['POST'])
 def hello_text():
-    user_input = None
-
+    print("I received an text")
     text = request.form['text']
 
     user_input = text
-
+    print("Ask to llama")
     message = chat_ai(user_input)
 
     return message
 
 @app.route('/image', methods=['POST'])
 def hello_image():
-    user_input = None
-
+    print("I received an image")
     image = request.files['image']
-
     image = image.read()
+
+    print("Reading your letter")
     result = reader.readtext(image, detail=0)
     user_input = ' '.join(result)
 
+    print("Ask to llama")
     message = chat_ai(user_input)
 
     return message
@@ -45,7 +49,7 @@ supabase: Client = create_client(url, key)
 
 llm = Ollama(model="llama3")
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Empty your mind. Be formless, shapeless, like water. Now you put water into a cup, it becomes the cup. You put water into a bottle, it becomes the bottle. You put it in a teapot, it becomes the teapot. Now water can flow or it can crash. Be water, my friend."),
+    ("system", ""),
     ("user", "{input}")
 ])
 output_parser = StrOutputParser()
@@ -62,7 +66,7 @@ def chat_ai(user_input: str):
     return message
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8080)
 
 
 # while True:

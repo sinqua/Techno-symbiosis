@@ -32,7 +32,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("text", inputText);
 
-    const response = await fetch("http://192.168.45.212:8080/text", {
+    const response = await fetch("http://1.232.136.97:8080/text", {
       method: "POST",
       body: formData,
       mode: "cors",
@@ -50,7 +50,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("image", selectedImage as Blob);
 
-    const response = await fetch("http://192.168.45.212:8080/image", {
+    const response = await fetch("http://1.232.136.97:8080/image", {
       method: "POST",
       body: formData,
     });

@@ -32,7 +32,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("text", inputText);
 
-    const response = await fetch("http://1.232.136.97:8080/text", {
+    const response = await fetch("http://192.168.200.215:8080/text", {
       method: "POST",
       body: formData,
       mode: "cors",
@@ -50,7 +50,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("image", selectedImage as Blob);
 
-    const response = await fetch("http://1.232.136.97:8080/image", {
+    const response = await fetch("http://192.168.200.215:8080/image", {
       method: "POST",
       body: formData,
     });
@@ -64,7 +64,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-10">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+      <div className="flex flex-col z-10 w-full max-w-md mx-auto justify-between font-mono text-sm lg:flex">
         <h1 className="text-3xl font-bold mb-10">Postman</h1>
         <h2 className="text-xl font-bold mb-3">편지쓰기</h2>
         <input type="file" accept="image/*" onChange={handleImageChange} />

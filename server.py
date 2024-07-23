@@ -41,6 +41,20 @@ def hello_image():
 
     return message
 
+@app.route("/history", methods=['GET'])
+def get_history():
+    from langchain_core.messages import AIMessage
+
+    print(store["abc123"])
+
+    for message in store["abc123"].messages:
+        if isinstance(message, AIMessage):
+            print("AI:", message.message)
+        else:
+            print("User:", message.message)
+    
+    return "History printed"
+
 
 url: str = "https://cwiespeponefxujkahlm.supabase.co"
 key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3aWVzcGVwb25lZnh1amthaGxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2OTg3ODUsImV4cCI6MjAzNDI3NDc4NX0.rGSmo-gYeCnNFoYfN_0fJsE_z7knoAxYU9BoiDduP5c"
@@ -55,15 +69,39 @@ prompt = ChatPromptTemplate.from_messages([
 output_parser = StrOutputParser()
 chain = prompt | llm | output_parser
 
+from langchain_community.chat_message_histories import ChatMessageHistory
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+store = {}
+
+def get_session_history(session_id: str) -> BaseChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = ChatMessageHistory()
+    return store[session_id]
+
+conversational_chain = RunnableWithMessageHistory(
+    chain,
+    get_session_history,
+    input_messages_key="input",
+    history_messages_key="chat_history",
+    output_messages_key="answer"
+)
+
 
 def chat_ai(user_input: str):
     result = supabase.table("user_message").insert([{"message": user_input}]).execute()
     row_id = result.data[0]['id']
 
-    message = chain.invoke({"input": user_input})
-    supabase.table("ai_message").insert([{"message": message, "user_message_id": row_id}]).execute()
+    output = conversational_chain.invoke(
+        {"input": user_input},
+        config={
+            "configurable": {"session_id": "abc123"}
+        })
+    
+    supabase.table("ai_message").insert([{"message": output, "user_message_id": row_id}]).execute()
 
-    return message
+    return output
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

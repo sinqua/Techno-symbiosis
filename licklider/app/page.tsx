@@ -62,6 +62,16 @@ export default function Home() {
     setIsSending(false);
   }
 
+  const handleGetHistory = async () => {
+
+    fetch("http://192.168.200.215:8080/history", {
+      method: "GET",
+    }).then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+}
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-10">
       <div className="flex flex-col z-10 w-full max-w-md mx-auto justify-between font-mono text-sm lg:flex">
@@ -79,6 +89,9 @@ export default function Home() {
         </button>
         <h2 className="text-xl font-bold mb-3">대답</h2>
         <p>{fetchedText}</p>
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleGetHistory} disabled={isSending}>
+          대화기록
+        </button>
       </div>
     </main>
   );

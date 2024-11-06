@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 export default function Home() {
 
-  const serverUrl = "http://192.168.45.94:8080";
+  const serverUrl = "http://40.82.154.173:8080";
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);

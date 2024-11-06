@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 
 export default function Home() {
 
+  const serverUrl = "http://192.168.45.94:8080";
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [inputText, setInputText] = useState<string>("");
@@ -32,7 +34,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("text", inputText);
 
-    const response = await fetch("http://192.168.200.215:8080/text", {
+    const response = await fetch(`${serverUrl}/text`, {
       method: "POST",
       body: formData,
       mode: "cors",
@@ -50,7 +52,7 @@ export default function Home() {
     const formData = new FormData();
     formData.append("image", selectedImage as Blob);
 
-    const response = await fetch("http://192.168.200.215:8080/image", {
+    const response = await fetch(`${serverUrl}/image`, {
       method: "POST",
       body: formData,
     });
@@ -64,7 +66,7 @@ export default function Home() {
 
   const handleGetHistory = async () => {
 
-    fetch("http://192.168.200.215:8080/history", {
+    fetch(`${serverUrl}/history`, {
       method: "GET",
     }).then((response) => response.json())
       .then((data) => {

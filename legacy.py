@@ -4,15 +4,13 @@ from langchain_core.output_parsers import StrOutputParser
 import os 
 from supabase import create_client, Client
 
-# todo : get the key from env file
-# url: str = os.environ.get("https://cwiespeponefxujkahlm.supabase.co")
-# key: str = os.environ.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3aWVzcGVwb25lZnh1amthaGxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2OTg3ODUsImV4cCI6MjAzNDI3NDc4NX0.rGSmo-gYeCnNFoYfN_0fJsE_z7knoAxYU9BoiDduP5c")
-
-
-url: str = "https://cwiespeponefxujkahlm.supabase.co"
-key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3aWVzcGVwb25lZnh1amthaGxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2OTg3ODUsImV4cCI6MjAzNDI3NDc4NX0.rGSmo-gYeCnNFoYfN_0fJsE_z7knoAxYU9BoiDduP5c"
+# url: str = "https://cwiespeponefxujkahlm.supabase.co"
+# key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN3aWVzcGVwb25lZnh1amthaGxtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTg2OTg3ODUsImV4cCI6MjAzNDI3NDc4NX0.rGSmo-gYeCnNFoYfN_0fJsE_z7knoAxYU9BoiDduP5c"
+url: str = "https://qmhmguogemmmoqnynhje.supabase.co"
+key: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtaG1ndW9nZW1tbW9xbnluaGplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzA4ODA1MzYsImV4cCI6MjA0NjQ1NjUzNn0.BAr__7pEyuQjdMgJkzNFWj4_1ANTpIb4Tu1cZiTpJ7o"
 supabase: Client = create_client(url, key)
 
+#pw: LxyxPe0azwd9Iz2z
 
 llm = Ollama(model="llama3")
 prompt = ChatPromptTemplate.from_messages([

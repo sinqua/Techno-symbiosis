@@ -21,7 +21,7 @@ export default function Home() {
     }
   };
 
-  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
     event.target.style.height = "inherit";
     event.target.style.height = `${event.target.scrollHeight}px`;
@@ -83,7 +83,7 @@ export default function Home() {
           {isSending ? "전송 중..." : "전송"}
         </button>
         <h2 className="text-xl font-bold mb-3">말하기</h2>
-        <textarea className="w-full overflow-visible" type="text" value={inputText} onChange={handleTextChange} />
+        <textarea className="w-full overflow-visible" value={inputText} onChange={handleTextChange} />
         <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleSendText} disabled={isSending}>
           {isSending ? "전송 중..." : "전송"}
         </button>

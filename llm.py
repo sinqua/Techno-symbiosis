@@ -10,7 +10,7 @@ from database import supabase
 def get_session_history(session_id):
     return SQLChatMessageHistory(session_id, "sqlite:///memory.db")
 
-llm = Ollama(model="llama3")
+llm = Ollama(model="llama3.2:1b")
 
 
 prompt = ChatPromptTemplate.from_messages([

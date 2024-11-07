@@ -7,8 +7,11 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from database import supabase
 
+memoryChip = "sqlite:///newyork.db"
+# memoryChip = "sqlite:///memory.db"
+
 def get_session_history(session_id):
-    return SQLChatMessageHistory(session_id, "sqlite:///memory.db")
+    return SQLChatMessageHistory(session_id, memoryChip)
 
 llm = Ollama(model="llama3.2:1b")
 

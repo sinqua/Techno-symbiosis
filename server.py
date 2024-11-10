@@ -8,7 +8,7 @@ reader = easyocr.Reader(['ko', 'en'], gpu=True)
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/server', methods=['GET'])
+@app.route('/', methods=['GET'])
 def hello_world():
     return 'Hello, World!'
 

@@ -6,7 +6,7 @@ export default function Home() {
   // const serverUrl = "http://40.82.154.173:8080";
   // const serverUrl = "http://localhost:8080";
   // const serverUrl = "https://40.82.154.173:8080";
-  const serverUrl = "https://galatea.my";
+  const serverUrl = "https://server.galatea.my";
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);

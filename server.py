@@ -2,7 +2,6 @@ from flask import Flask, request
 from flask_cors import CORS
 import easyocr
 import llm
-import ssl
 
 reader = easyocr.Reader(['ko', 'en'], gpu=True)
 
@@ -40,4 +39,4 @@ def hello_image():
     return message
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, ssl_context=('cert.pem', 'key.pem'))
+    app.run(host='0.0.0.0', port=80)

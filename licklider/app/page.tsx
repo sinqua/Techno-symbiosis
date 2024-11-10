@@ -47,6 +47,9 @@ export default function Home() {
       const data = await response.text();
       setFetchedText(data);
     }
+    else {
+      setFetchedText("Error");
+    }
     setIsSending(false);
   }
 
@@ -63,6 +66,9 @@ export default function Home() {
     if (response.ok) {
       const data = await response.text();
       setFetchedText(data);
+    }
+    else {
+      setFetchedText("Error");
     }
     setIsSending(false);
   }

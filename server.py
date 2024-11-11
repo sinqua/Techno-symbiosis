@@ -3,7 +3,6 @@ from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 import easyocr
 import llm
-from waitress import serve
 
 reader = easyocr.Reader(['ko', 'en'], gpu=True)
 
@@ -27,26 +26,18 @@ def hello_text():
 
 @app.route('/image', methods=['POST'])
 def hello_image():
-    def gernerate():
-        print("I received an image")
-        image = request.files['image']
-        image = image.read()
+    print("I received an image")
+    image = request.files['image']
+    image = image.read()
+    result = reader.readtext(image, detail=0)
+    user_input = ' '.join(result)
+    print("Read your letter")
 
-        print("Reading your letter")
-        result = reader.readtext(image, detail=0)
-        user_input = ' '.join(result)
 
-        print("Ask to llama")
-
-        for _ in range(30):
-            yield " "
-            time.sleep(1)
-
-        message = llm.chat_ai(user_input)
-        yield message
-
-    return Response(stream_with_context(gernerate()))
+    print("Ask to llama")
+    message = llm.chat_ai(user_input)
+    print("I got the answer")
+    return  message
 
 if __name__ == '__main__':
-    # app.run(host='0.0.0.0', port=8080)
-    serve(app, host='0.0.0.0', port=8080, channel_timeout=3600)
+    app.run(host='0.0.0.0', port=8080)

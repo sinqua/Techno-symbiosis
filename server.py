@@ -37,11 +37,12 @@ def hello_image():
         user_input = ' '.join(result)
 
         print("Ask to llama")
+
+        for _ in range(30):
+            yield " "
+            time.sleep(1)
+
         message = llm.chat_ai(user_input)
-
-        yield " "
-        time.sleep(1)
-
         yield message
 
     return Response(stream_with_context(gernerate()))

@@ -1,8 +1,8 @@
-import time
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 import easyocr
 import llm
+from datetime import datetime
 
 reader = easyocr.Reader(['ko', 'en'], gpu=True)
 
@@ -26,7 +26,8 @@ def hello_text():
 
 @app.route('/image', methods=['POST'])
 def hello_image():
-    print("I received an image")
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"I received an image at {current_time}")
     image = request.files['image']
     image = image.read()
     result = reader.readtext(image, detail=0)

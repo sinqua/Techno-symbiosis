@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 import easyocr
 import llm
+from waitress import serve
 
 reader = easyocr.Reader(['ko', 'en'], gpu=True)
 
@@ -39,4 +40,5 @@ def hello_image():
     return message
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    # app.run(host='0.0.0.0', port=8080)
+    serve(app, host='0.0.0.0', port=8080, channel_timeout=3600)

@@ -1,3 +1,4 @@
+import time
 from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 import easyocr
@@ -37,6 +38,9 @@ def hello_image():
 
         print("Ask to llama")
         message = llm.chat_ai(user_input)
+
+        yield " "
+        time.sleep(1)
 
         yield message
 

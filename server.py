@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response, stream_with_context
 from flask_cors import CORS
 import easyocr
 import llm
@@ -26,18 +26,21 @@ def hello_text():
 
 @app.route('/image', methods=['POST'])
 def hello_image():
-    print("I received an image")
-    image = request.files['image']
-    image = image.read()
+    def gernerate():
+        print("I received an image")
+        image = request.files['image']
+        image = image.read()
 
-    print("Reading your letter")
-    result = reader.readtext(image, detail=0)
-    user_input = ' '.join(result)
+        print("Reading your letter")
+        result = reader.readtext(image, detail=0)
+        user_input = ' '.join(result)
 
-    print("Ask to llama")
-    message = llm.chat_ai(user_input)
+        print("Ask to llama")
+        message = llm.chat_ai(user_input)
 
-    return message
+        yield message
+
+    return Response(stream_with_context(gernerate()))
 
 if __name__ == '__main__':
     # app.run(host='0.0.0.0', port=8080)

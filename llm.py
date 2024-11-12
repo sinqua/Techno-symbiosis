@@ -7,7 +7,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from database import supabase
 
-memoryChip = "sqlite:///newyork.db"
+memoryChip = "sqlite:///newyork4.db"
 # memoryChip = "sqlite:///memory.db"
 
 def get_session_history(session_id):
@@ -32,7 +32,7 @@ runnable_with_history = RunnableWithMessageHistory(
 )
 
 def chat_ai(user_input: str):
-    result = supabase.table("user_message").insert([{"message": user_input}]).execute()
+    result = supabase.table("user_message").insert([{"message": user_input, "memery_chip": memoryChip}]).execute()
     row_id = result.data[0]['id']
 
     output = runnable_with_history.invoke(
@@ -41,6 +41,6 @@ def chat_ai(user_input: str):
             "configurable": {"session_id": "abc123"}
         })
     
-    supabase.table("ai_message").insert([{"message": output, "user_message_id": row_id}]).execute()
+    supabase.table("ai_message").insert([{"message": output, "user_message_id": row_id, "memory_chip": memoryChip}]).execute()
 
     return output

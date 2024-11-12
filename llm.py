@@ -32,7 +32,7 @@ runnable_with_history = RunnableWithMessageHistory(
 )
 
 def chat_ai(user_input: str):
-    result = supabase.table("user_message").insert([{"message": user_input, "memery_chip": memoryChip}]).execute()
+    result = supabase.table("user_message").insert([{"message": user_input, "memory_chip": memoryChip}]).execute()
     row_id = result.data[0]['id']
 
     output = runnable_with_history.invoke(

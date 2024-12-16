@@ -7,13 +7,14 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from database import supabase
 
-memoryChip = "sqlite:///newyork4.db"
+memoryChip = "sqlite:///unity6.db"
 # memoryChip = "sqlite:///memory.db"
 
 def get_session_history(session_id):
     return SQLChatMessageHistory(session_id, memoryChip)
 
-llm = Ollama(model="llama3.2:1b")
+# llm = Ollama(model="llama3.2:1b")
+llm = Ollama(model="llama3.2")
 
 
 prompt = ChatPromptTemplate.from_messages([
@@ -32,8 +33,8 @@ runnable_with_history = RunnableWithMessageHistory(
 )
 
 def chat_ai(user_input: str):
-    result = supabase.table("user_message").insert([{"message": user_input, "memory_chip": memoryChip}]).execute()
-    row_id = result.data[0]['id']
+    # result = supabase.table("user_message").insert([{"message": user_input, "memory_chip": memoryChip}]).execute()
+    # row_id = result.data[0]['id']
 
     output = runnable_with_history.invoke(
         {"input": user_input},
@@ -41,6 +42,6 @@ def chat_ai(user_input: str):
             "configurable": {"session_id": "abc123"}
         })
     
-    supabase.table("ai_message").insert([{"message": output, "user_message_id": row_id, "memory_chip": memoryChip}]).execute()
+    # supabase.table("ai_message").insert([{"message": output, "user_message_id": row_id, "memory_chip": memoryChip}]).execute()
 
     return output

@@ -40,5 +40,17 @@ def hello_image():
     print("I got the answer")
     return  message
 
+@app.route('/voice', methods=['POST'])
+def hello_voice():
+    print("I received an voice")
+    voice = request.form['voice']
+
+    user_input = voice
+    print("Ask to llama")
+    message = llm.chat_ai(user_input)
+
+    return message
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)

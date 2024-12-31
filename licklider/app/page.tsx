@@ -82,23 +82,23 @@ export default function Home() {
 }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-10">
+    <main className="flex min-h-screen flex-col items-center justify-between p-10 dark:bg-gray-900 dark:text-white">
       <div className="flex flex-col z-10 w-full max-w-md mx-auto justify-between font-mono text-sm lg:flex">
         <h1 className="text-3xl font-bold mb-10">Postman</h1>
         <h2 className="text-xl font-bold mb-3">편지쓰기</h2>
         <input type="file" accept="image/*" onChange={handleImageChange} />
         {imageSrc && <img src={imageSrc} alt="Selected" />}
-        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleSendImage} disabled={isSending}>
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black dark:bg-blue-700 dark:border-white" onClick={handleSendImage} disabled={isSending}>
           {isSending ? "전송 중..." : "전송"}
         </button>
         <h2 className="text-xl font-bold mb-3">말하기</h2>
-        <textarea className="w-full overflow-visible" value={inputText} onChange={handleTextChange} />
-        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleSendText} disabled={isSending}>
+        <textarea className="w-full overflow-visible dark:text-black" value={inputText} onChange={handleTextChange} />
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black dark:bg-blue-700 dark:border-white" onClick={handleSendText} disabled={isSending}>
           {isSending ? "전송 중..." : "전송"}
         </button>
         <h2 className="text-xl font-bold mb-3">대답</h2>
         <p>{fetchedText}</p>
-        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black" onClick={handleGetHistory} disabled={isSending}>
+        <button className="w-full h-8 mt-5 mb-5 bg-blue-500 border border-black dark:bg-blue-700 dark:border-white" onClick={handleGetHistory} disabled={isSending}>
           대화기록
         </button>
       </div>

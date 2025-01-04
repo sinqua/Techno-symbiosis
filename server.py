@@ -15,41 +15,25 @@ def hello_world():
 
 @app.route('/text', methods=['POST'])
 def hello_text():
-    print("I received an text")
     text = request.form['text']
+    print("You said: ", text)
 
     user_input = text
-    print("Ask to llama")
     message = llm.chat_ai(user_input)
 
     return message
 
 @app.route('/image', methods=['POST'])
 def hello_image():
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"I received an image at {current_time}")
     image = request.files['image']
+    print("You sent an image")
+
     image = image.read()
     result = reader.readtext(image, detail=0)
     user_input = ' '.join(result)
-    print("Read your letter")
 
-
-    print("Ask to llama")
     message = llm.chat_ai(user_input)
-    print("I got the answer")
     return  message
-
-@app.route('/voice', methods=['POST'])
-def hello_voice():
-    print("I received an voice")
-    voice = request.form['voice']
-
-    user_input = voice
-    print("Ask to llama")
-    message = llm.chat_ai(user_input)
-
-    return message
 
 
 if __name__ == '__main__':

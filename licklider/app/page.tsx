@@ -58,16 +58,6 @@ const App = () => {
     setIsSending(false);
   };
 
-  const handleGetHistory = async () => {
-
-    fetch(`${serverUrl}/history`, {
-      method: "GET",
-    }).then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-}
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-10 dark:bg-gray-900 dark:text-white">
       <div className="flex flex-col z-10 w-full max-w-md mx-auto justify-between font-mono text-sm lg:flex">

@@ -10,27 +10,6 @@ CORS(app)
 def hello_world():
     return 'Hello, World!'
 
-@app.route('/text', methods=['POST'])
-def hello_text():
-    text = request.form['text']
-    print("You said: ", text)
-
-    user_input = text
-    message = llm.chat_ai(user_input)
-
-    return message
-
-@app.route('/image', methods=['POST'])
-def hello_image():
-    image = request.files['image']
-    print("You sent an image")
-
-    image_data = image.read()
-    encoded_image = base64.b64encode(image_data).decode('utf-8')
-
-    message = llm.chat_ai(images=encoded_image)
-    return  message
-
 @app.route('/send', methods=['POST'])
 def hello_send():
     text = request.form.get('text')

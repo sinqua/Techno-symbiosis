@@ -5,9 +5,11 @@ from langchain_core.prompts import MessagesPlaceholder
 from langchain_community.chat_message_histories import SQLChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from database import supabase
+# from database import supabase
 
-memoryChip = "sqlite:///2025-01.db"
+# memoryChip = "sqlite:///2025-01-11.db"
+memoryChip = "sqlite:///2025-01-11.db"
+memoryChip = "sqlite:///2025-01-iamge.db"
 
 def get_session_history(session_id):
     return SQLChatMessageHistory(session_id, memoryChip)
@@ -17,8 +19,10 @@ llm = Ollama(model="llama3.2")
 
 
 prompt = ChatPromptTemplate.from_messages([
-        ("system",""),
+        ("system","Please keep your answers short and to the point"),
         MessagesPlaceholder(variable_name="history"),
+        ("human", "hello, how are you?"),
+        ("ai", "I'm doing well, thanks!"),
         ("human", "{input}"),
 ])
 

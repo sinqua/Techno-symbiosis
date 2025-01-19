@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 const App = () => {
 
   // enter your server ip address
-  const serverUrl = "http://192.168.45.214:8080";
+  const serverUrl = "http://192.168.219.104:8080";
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);

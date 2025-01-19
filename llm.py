@@ -17,6 +17,9 @@ def init_db():
     conn.commit()
     conn.close()
 
+# 초기화
+init_db()
+
 # 메시지를 데이터베이스에 저장
 def save_message(role: str, content: str, images: str = None):
     conn = sqlite3.connect('messages.db')
@@ -43,9 +46,6 @@ def load_messages() -> List[Dict[str, Any]]:
     messages.insert(0, initial_message)
 
     return messages
-
-# 초기화
-init_db()
 
 def chat_ai(user_input: str = None, image_b64: str = None):
     # 데이터베이스에서 메시지 불러오기
